@@ -1,19 +1,31 @@
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE")
     }
 }
 
+/*buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.5.0"
+    }
+}*/
+
+//apply plugin: "com.github.spotbugs"
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: "jacoco"
-
 
 bootJar {
     baseName = 'tourGuide'
@@ -39,15 +51,21 @@ dependencies {
     compile(name:'gpsUtil', ext:'jar')
     compile(name:'RewardCentral', ext:'jar')
     compile(name:'TripPricer', ext:'jar')
-    
+
     testCompile("junit:junit")
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.6.RELEASE'
     // https://mvnrepository.com/artifact/org.jacoco/org.jacoco.agent
     testCompile group: 'org.jacoco', name: 'org.jacoco.agent', version: '0.8.4'
     // https://mvnrepository.com/artifact/org.jacoco/org.jacoco.ant
     testCompile group: 'org.jacoco', name: 'org.jacoco.ant', version: '0.8.4'
-}
+    // https://mvnrepository.com/artifact/pl.pojo/pojo-tester
+    testCompile group: 'pl.pojo', name: 'pojo-tester', version: '0.7.6'
 
+
+
+    /*spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
+    spotbugs 'com.github.spotbugs:spotbugs:4.2.0'*/
+}
 
 jacoco {
     toolVersion = "0.8.4"
@@ -61,6 +79,17 @@ jacocoTestReport {
     }
 }
 
+/*spotbugs {
+    ignoreFailures = false
+    showStackTraces = true
+    showProgress = true
+    effort = 'default'
+    reportLevel = 'default'
+    visitors = [ 'FindSqlInjection', 'SwitchFallthrough' ]
+    omitVisitors = [ 'FindNonShortCircuit' ]
+    reportsDir = file("$buildDir/spotbugs")
+}*/
+
 test.finalizedBy jacocoTestReport
 check.dependsOn jacocoTestCoverageVerification
 
@@ -70,7 +99,7 @@ jacocoTestCoverageVerification {
       limit {
         counter = 'LINE'
         value = 'COVEREDRATIO'
-        minimum = 0.5
+        minimum = 0.6
       }
     }
   }
