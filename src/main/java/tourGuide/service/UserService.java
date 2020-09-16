@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class TourGuideService {
+public class UserService {
     private final GpsUtil gpsUtil;
     private final RewardsService rewardsService;
     private TourGuideUtils tourGuideUtils = new TourGuideUtils();
@@ -27,13 +27,12 @@ public class TourGuideService {
     public final Tracker tracker;
     private boolean testMode = true;
 
-    //Initialize users for test mode
-    public TourGuideService(GpsUtil gpsUtil, RewardsService rewardsService) {
+    public UserService(GpsUtil gpsUtil, RewardsService rewardsService) {
         this.gpsUtil = gpsUtil;
         this.rewardsService = rewardsService;
 
         if (testMode) {
-            Logger logger = LoggerFactory.getLogger(TourGuideService.class);
+            Logger logger = LoggerFactory.getLogger(UserService.class);
             logger.info("TestMode enabled");
             logger.debug("Initializing users");
             userUtils.initializeInternalUsers();
@@ -43,7 +42,6 @@ public class TourGuideService {
         addShutDownHook();
     }
 
-    //User Service
     public List<UserReward> getUserRewards(User user) {
         return user.getUserRewards();
     }
