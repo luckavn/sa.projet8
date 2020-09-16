@@ -1,13 +1,11 @@
 package tourGuide.domain;
 
-import org.hibernate.validator.constraints.Currency;
-
-public class UserPreferences2 {
+public class UserPreferences {
 
     private int attractionProximity;
     private String currency;
-    private int lowerPricePoint;
-    private int highPricePoint;
+    private Double lowerPricePoint;
+    private Double highPricePoint;
     private int tripDuration;
     private int ticketQuantity;
     private int numberOfAdults;
@@ -29,19 +27,19 @@ public class UserPreferences2 {
         this.currency = currency;
     }
 
-    public int getLowerPricePoint() {
+    public Double getLowerPricePoint() {
         return lowerPricePoint;
     }
 
-    public void setLowerPricePoint(int lowerPricePoint) {
+    public void setLowerPricePoint(Double lowerPricePoint) {
         this.lowerPricePoint = lowerPricePoint;
     }
 
-    public int getHighPricePoint() {
+    public Double getHighPricePoint() {
         return highPricePoint;
     }
 
-    public void setHighPricePoint(int highPricePoint) {
+    public void setHighPricePoint(Double highPricePoint) {
         this.highPricePoint = highPricePoint;
     }
 
@@ -77,13 +75,23 @@ public class UserPreferences2 {
         this.numberOfChildren = numberOfChildren;
     }
 
-    public UserPreferences2(int attractionProximity, String currency, int lowerPricePoint, int highPricePoint, int tripDuration, int ticketQuantity, int numberOfAdults, int numberOfChildren) {
+    public UserPreferences() {
+    }
+
+    public UserPreferences(int attractionProximity, String currency, Double lowerPricePoint, Double highPricePoint, int tripDuration, int ticketQuantity, int numberOfAdults, int numberOfChildren) {
         this.attractionProximity = attractionProximity;
         this.currency = currency;
         this.lowerPricePoint = lowerPricePoint;
         this.highPricePoint = highPricePoint;
         this.tripDuration = tripDuration;
         this.ticketQuantity = ticketQuantity;
+        this.numberOfAdults = numberOfAdults;
+        this.numberOfChildren = numberOfChildren;
+    }
+
+    public UserPreferences(Double highPricePoint, int tripDuration, int numberOfAdults, int numberOfChildren) {
+        this.highPricePoint = highPricePoint;
+        this.tripDuration = tripDuration;
         this.numberOfAdults = numberOfAdults;
         this.numberOfChildren = numberOfChildren;
     }
