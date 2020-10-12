@@ -49,6 +49,7 @@ public class TestPerformance {
 
                 public void run() {
                     this.userService.trackUserLocation(this.user);
+                    System.out.println("ok passed");
                 }
 
                 public Runnable init(UserService userService, User user) {
@@ -96,6 +97,7 @@ public class TestPerformance {
                     user.addToVisitedLocations(new VisitedLocation(user.getUserId(), attraction, new Date()));
                     this.rewardsService.calculateRewards(this.user);
                     assertTrue(user.getUserRewards().size() > 0);
+                    System.out.println("ok passed");
                 }
 
                 public Runnable init(RewardsService rewardsService, User user) {
