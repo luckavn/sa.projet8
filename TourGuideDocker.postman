@@ -1,0 +1,218 @@
+{
+	"info": {
+		"_postman_id": "bd71ffbf-c05d-4d57-990c-c019e7669e03",
+		"name": "TourGuide Docker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Home",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/home",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"home"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/user?username=internalUser4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"user"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "internalUser4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User's location",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/location?username=internalUser4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"location"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "internalUser4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All users locations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/allCurrentLocations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"allCurrentLocations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User preferences",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"attractionProximity\": \"4000\",\r\n    \"currency\": \"USD\",\r\n    \"highPricePoint\": \"500\",\r\n    \"lowerPricePoint\": \"3000\",\r\n    \"tripDuration\": \"3\",\r\n    \"ticketQuantity\": \"4\",\r\n    \"numberOfAdults\": \"2\",\r\n    \"numberOfChildren\": \"2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/userPreferences?username=internalUser4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"userPreferences"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "internalUser4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User's nearby attractions",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/nearbyAttractions?username=internalUser4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"nearbyAttractions"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "internalUser4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Trip deals",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/tripDeals?username=internalUser4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"tripDeals"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "internalUser4"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
