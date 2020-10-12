@@ -1,5 +1,6 @@
 package tourGuide.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import gpsUtil.location.VisitedLocation;
 import tripPricer.Provider;
 
@@ -8,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+@JsonDeserialize
 public class User {
     private final UUID userId;
     private final String userName;

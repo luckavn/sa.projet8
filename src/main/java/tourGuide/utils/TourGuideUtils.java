@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TourGuideUtils {
 
-    public List<NearbyAttractions> createFinalList (List<Attractions> wipList) {
+    public List<NearbyAttractions> createFinalList(List<Attractions> wipList) {
         List<NearbyAttractions> finalList = new ArrayList<>();
         NearbyAttractions attraction1 = new NearbyAttractions(wipList.get(0).getAttraction().attractionName, wipList.get(0).getAttractionLat(), wipList.get(0).getAttractionLat(), wipList.get(0).getDistance(), wipList.get(0).getRewardsPoints());
         NearbyAttractions attraction2 = new NearbyAttractions(wipList.get(1).getAttraction().attractionName, wipList.get(1).getAttractionLat(), wipList.get(1).getAttractionLat(), wipList.get(1).getDistance(), wipList.get(1).getRewardsPoints());
@@ -22,5 +22,5 @@ public class TourGuideUtils {
         finalList.add(attraction5);
         return finalList;
     }
-    }
+}
 
