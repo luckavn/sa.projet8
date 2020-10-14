@@ -145,14 +145,17 @@ public class TestUserService {
 
     @Test
     public void getLastLocationOfUsers() {
+        //Initialize required instances
         GpsUtil gpsUtil = new GpsUtil();
         RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
         InternalTestHelper.setInternalUserNumber(10);
         UserService userService = new UserService(gpsUtil, rewardsService);
 
+        //Get last location of users
         Map<String, Location> lastLocation = userService.getLastLocationOfUsers();
         userService.tracker.stopTracking();
 
+        //Assert
         assertEquals(10, lastLocation.size());
     }
 }

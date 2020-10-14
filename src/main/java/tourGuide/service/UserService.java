@@ -42,10 +42,23 @@ public class UserService {
         addShutDownHook();
     }
 
+    /**
+     * Get saved user's rewards
+     *
+     * @param user has to be given
+     * @return a list of the wanted rewards
+     */
     public List<UserReward> getUserRewards(User user) {
         return user.getUserRewards();
     }
 
+    /**
+     * Get actual location of a single user
+     * This method is used by /location (GET) API endpoint
+     *
+     * @param user has to be given
+     * @return an object with longitude and latitude
+     */
     public VisitedLocation getUserLocation(User user) {
         VisitedLocation visitedLocation = (user.getVisitedLocations().size() > 0) ?
                 user.getLastVisitedLocation() :
@@ -53,14 +66,33 @@ public class UserService {
         return visitedLocation;
     }
 
-    public User getUser(String userName) {
-        return userUtils.internalUserMap.get(userName);
+    /**
+     * Get user information of a single one
+     * This method is used by /user (GET) endpoint
+     *
+     * @param username has to be given
+     * @return an user object
+     */
+    public User getUser(String username) {
+        return userUtils.internalUserMap.get(username);
     }
 
+    /**
+     * Get all app users information
+     * This method is not used by any endpoint at this time
+     *
+     * @return a list of users
+     */
     public List<User> getAllUsers() {
         return userUtils.internalUserMap.values().stream().collect(Collectors.toList());
     }
 
+    /**
+     * Get all id of all users
+     * This method is not used internally or by any endpoint at this time
+     *
+     * @return a list of string with user ids
+     */
     public List<String> getAllUsersID() {
         List<String> userId = new ArrayList<>();
         List<User> users = new ArrayList<>(userUtils.getInternalUserMap().values());
@@ -70,12 +102,24 @@ public class UserService {
         return userId;
     }
 
+    /**
+     * Add user into app memory
+     * This method is not used by any endpoint at this time
+     *
+     * @param user has to be a user body
+     */
     public void addUser(User user) {
         if (!userUtils.internalUserMap.containsKey(user.getUserName())) {
             userUtils.internalUserMap.put(user.getUserName(), user);
         }
     }
 
+    /**
+     * Get personalised trip deals for an user
+     *
+     * @param user has to be a user body
+     * @return a list of providers
+     */
     public List<Provider> getTripDeals(User user) {
         int cumulatativeRewardPoints = user.getUserRewards().stream().mapToInt(i -> i.getRewardPoints()).sum();
         List<Provider> providers = tripPricer.getPrice(userUtils.tripPricerApiKey, user.getUserId(), user.getUserPreferences().getNumberOfAdults(),
@@ -92,6 +136,13 @@ public class UserService {
         return providersResult;
     }
 
+    /**
+     * Get actual location of a single user
+     * Calculate also given user's rewards
+     *
+     * @param user has to be a user body
+     * @return an object with longitude and latitude
+     */
     public VisitedLocation trackUserLocation(User user) {
         VisitedLocation visitedLocation = gpsUtil.getUserLocation(user.getUserId());
         user.addToVisitedLocations(visitedLocation);
@@ -99,6 +150,12 @@ public class UserService {
         return visitedLocation;
     }
 
+    /**
+     * Get all users actual locations
+     * This method is used by /allCurrentLocations (GET) endpoint
+     *
+     * @return a hashmap with userid and location (longitude and latitude)
+     */
     public Map<String, Location> getLastLocationOfUsers() {
         Map<String, Location> lastLocation = new HashMap<>();
         userUtils.getInternalUserMap().values()
@@ -109,13 +166,21 @@ public class UserService {
         return lastLocation;
     }
 
-    public NearbyAttractionsForUser getNearByAttractionsForUser(String userName) {
+    /**
+     * Get the 5 closest attractions based from user's actual location
+     * This method is used by /nearbyAttractions (POST) endpoint
+     *
+     * @param username is a string and mandatory
+     * @return a list of nearby attractions and user's id, longitude and latitude
+     */
+    public NearbyAttractionsForUser getNearByAttractionsForUser(String username) {
         NearbyAttractionsForUser nearbyAttractionsForUser = new NearbyAttractionsForUser();
         List<Attractions> nearbyAttractionList = new ArrayList<>();
-        VisitedLocation visitedLocation = getUserLocation(getUser(userName));
+        VisitedLocation visitedLocation = getUserLocation(getUser(username));
 
         nearbyAttractionsForUser.setUserLat(visitedLocation.location.latitude);
         nearbyAttractionsForUser.setUserLong(visitedLocation.location.longitude);
+        nearbyAttractionsForUser.setUser(getUser(username));
 
         //Calculate attraction and distances
         for (Attraction attraction : gpsUtil.getAttractions()) {
@@ -140,11 +205,11 @@ public class UserService {
         wipList.add(sortedList.get(4));
 
         //Calculate rewards points
-        wipList.get(0).setRewardsPoints(rewardsService.getRewardPoints(wipList.get(0).getAttraction(), getUser(userName)));
-        wipList.get(1).setRewardsPoints(rewardsService.getRewardPoints(wipList.get(0).getAttraction(), getUser(userName)));
-        wipList.get(2).setRewardsPoints(rewardsService.getRewardPoints(wipList.get(0).getAttraction(), getUser(userName)));
-        wipList.get(3).setRewardsPoints(rewardsService.getRewardPoints(wipList.get(0).getAttraction(), getUser(userName)));
-        wipList.get(4).setRewardsPoints(rewardsService.getRewardPoints(wipList.get(0).getAttraction(), getUser(userName)));
+        wipList.get(0).setRewardsPoints(rewardsService.getRewardPoints(wipList.get(0).getAttraction(), getUser(username)));
+        wipList.get(1).setRewardsPoints(rewardsService.getRewardPoints(wipList.get(0).getAttraction(), getUser(username)));
+        wipList.get(2).setRewardsPoints(rewardsService.getRewardPoints(wipList.get(0).getAttraction(), getUser(username)));
+        wipList.get(3).setRewardsPoints(rewardsService.getRewardPoints(wipList.get(0).getAttraction(), getUser(username)));
+        wipList.get(4).setRewardsPoints(rewardsService.getRewardPoints(wipList.get(0).getAttraction(), getUser(username)));
 
 
         //Create new object
@@ -154,8 +219,16 @@ public class UserService {
         return nearbyAttractionsForUser;
     }
 
-    public User setUserPreferences(String userName, UserPreferences preferences) {
-        User user = getUser(userName);
+    /**
+     * Set user's preferences for calculating personalized trip deals
+     * This method is used by /userPreferences (POST) endpoint
+     *
+     * @param username    is a string and is mandatory
+     * @param preferences is a request body that has to respect UserPreferences information
+     * @return the user object with given preferences
+     */
+    public User setUserPreferences(String username, UserPreferences preferences) {
+        User user = getUser(username);
         UserPreferences userPreferences = new UserPreferences(
                 preferences.getAttractionProximity(),
                 preferences.getCurrency(),
@@ -171,6 +244,9 @@ public class UserService {
         return user;
     }
 
+    /**
+     * Shut down the app tracking solution
+     */
     private void addShutDownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {

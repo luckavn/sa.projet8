@@ -35,6 +35,12 @@ public class RewardsService {
         proximityBuffer = defaultProximityBuffer;
     }
 
+    /**
+     * Calculate user's rewards and add them to user information
+     * This method is used in performance test and is looped with executor service in multi thread mode
+     *
+     * @param user is mandatory
+     */
     public void calculateRewards(User user) {
         CopyOnWriteArrayList<Attraction> attractions = new CopyOnWriteArrayList<>();
         CopyOnWriteArrayList<VisitedLocation> userLocations = new CopyOnWriteArrayList<>();
@@ -60,10 +66,24 @@ public class RewardsService {
         return getDistance(attraction, visitedLocation.location) > proximityBuffer ? false : true;
     }
 
+    /**
+     * Get rewards that has to be added to user info based and his visited locations
+     *
+     * @param attraction name, city, and infos about the attraction
+     * @param user       is mandatory
+     * @return
+     */
     public int getRewardPoints(Attraction attraction, User user) {
         return rewardsCentral.getAttractionRewardPoints(attraction.attractionId, user.getUserId());
     }
 
+    /**
+     * Offers to calculate the distance in miles between two locations (longitude, latitude)
+     *
+     * @param loc1 first location
+     * @param loc2 second location
+     * @return the final distance between loc1 and loc2 (in miles)
+     */
     public double getDistance(Location loc1, Location loc2) {
         double lat1 = Math.toRadians(loc1.latitude);
         double lon1 = Math.toRadians(loc1.longitude);

@@ -5,6 +5,7 @@ import java.util.List;
 public class NearbyAttractionsForUser {
     private Double userLat;
     private Double userLong;
+    private User user;
     private List<NearbyAttractions> nearbyAttractionList;
 
     public Double getUserLat() {
@@ -19,6 +20,14 @@ public class NearbyAttractionsForUser {
         return userLong;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public void setUserLong(Double userLong) {
         this.userLong = userLong;
     }
@@ -30,4 +39,5 @@ public class NearbyAttractionsForUser {
     public void setNearbyAttractionList(List<NearbyAttractions> nearbyAttractionList) {
         this.nearbyAttractionList = nearbyAttractionList;
     }
+
 }

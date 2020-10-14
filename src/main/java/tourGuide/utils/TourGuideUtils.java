@@ -8,6 +8,11 @@ import java.util.List;
 
 public class TourGuideUtils {
 
+    /**
+     * This method is a util method that build a final list for 5 nearest attractions of user's location
+     * @param wipList is a list of attractions (all available attractions) that is already sorted (0 is the closest , ...)
+     * @return a final list with only the 5 closest
+     */
     public List<NearbyAttractions> createFinalList(List<Attractions> wipList) {
         List<NearbyAttractions> finalList = new ArrayList<>();
         NearbyAttractions attraction1 = new NearbyAttractions(wipList.get(0).getAttraction().attractionName, wipList.get(0).getAttractionLat(), wipList.get(0).getAttractionLat(), wipList.get(0).getDistance(), wipList.get(0).getRewardsPoints());
